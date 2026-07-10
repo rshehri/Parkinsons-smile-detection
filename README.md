@@ -256,20 +256,14 @@ correlation pruning. Evaluated on the held-out test set (23 clips):
 `AU26_r_mean`, `Left Eyebrows Raised_entropy`, `Left Eye Open_var`,
 `AU12_r_var`, `AU45_r_mean`, `AU25_r_mean`.
 
-### Equivalence to the original Colab notebook
+### Changes to the original Colab notebooks
 
-Every metric above is **identical** to the original Google Colab run — the
-converted pipeline performs the same data cleaning, class balancing, train/test
-split and model, so given the same configuration it produces the same numbers.
 The only intentional change is the hyper-parameter *search engine* (Weights &
 Biases cloud sweep → offline Optuna); both perform Bayesian optimization over
 the same `C` / `gamma` / `kernel` space. When the script auto-tunes from
 scratch, Optuna may settle on slightly different hyper-parameters and therefore
 a comparable — not necessarily bit-identical — AUROC, because the small test set
 (23 clips) makes the metric move in coarse steps.
-
-> The dataset is small (243 clips), so these metrics are indicative of the
-> approach, not clinically validated performance.
 
 ---
 
@@ -339,26 +333,6 @@ This produces, under `features_output/`:
 **Add the label.** `clip_stats.csv` does not contain the `PD` column — that is
 your clinical ground-truth label. Add a `PD` column (`0` = healthy, `1` = PD)
 to each clip's row, then pass the file to the model script with `--csv`.
-
----
-
-## What changed from the original Colab notebooks
-
-The notebooks in `notebooks/` are kept for reference. The scripts in `src/`
-were adapted to run locally:
-
-| Colab-specific | Replaced with |
-|----------------|---------------|
-| `!apt-get` / `!pip install` cells | `requirements.txt` + README setup |
-| `google.colab.drive.mount()` and `/content/drive/...` paths | `--video-dir` / `--output-dir` / `--csv` CLI arguments |
-| `!OpenFace/.../FeatureExtraction` shell magic | `subprocess.run(...)` + `--openface-bin` |
-| `google.colab.files.upload()` / `cv2_imshow` | standard file paths / saved figures |
-| Weights & Biases login + cloud Bayesian sweep | offline **Optuna** search (no account, no network) |
-| `plt.show()`-only figures | figures saved to `models/` (add `--show` to also display) |
-
-A bug in the notebook's final "save model" cell (it referenced undefined
-`final_model` / `eval_scaler`) was fixed — the script saves the actual fitted
-pipeline together with the selected feature list.
 
 ---
 

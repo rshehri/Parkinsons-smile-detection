@@ -1,0 +1,10 @@
+# Language statistics (GitHub Linguist)
+# The original Colab notebooks are kept for reference only. They are large
+# (they embed rendered outputs), so exclude them from the language breakdown
+# and mark them as documentation. This makes the converted Python in src/ the
+# reported language of the repository.
+notebooks/**    linguist-documentation
+*.ipynb         linguist-documentation
+
+# Treat the extracted-feature table as data, not code.
+data/*.csv      linguist-generated

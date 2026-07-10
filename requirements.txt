@@ -1,0 +1,28 @@
+# Core scientific stack
+# NOTE: keep numpy < 2.0 — shap/xgboost/scipy wheels in this project are built
+# against the NumPy 1.x ABI and will crash under NumPy 2.x.
+numpy>=1.24,<2.0
+pandas>=2.0
+scipy>=1.10
+
+# Machine learning
+scikit-learn>=1.3
+xgboost>=2.0
+imbalanced-learn>=0.11
+shap>=0.44            # SHAP-driven feature selection (BoostRFE / BoostRFA)
+optuna>=3.4          # offline SVM hyper-parameter search (replaces W&B sweep)
+joblib>=1.3          # model serialization
+
+# Plotting
+matplotlib>=3.7
+seaborn>=0.12
+
+# --- Feature-extraction stage only (src/smile_features_extractor.py) ---
+# Needed to turn raw videos into features. Not required to train the model
+# from the provided CSV. Uncomment to install.
+# mediapipe>=0.10
+# opencv-python>=4.8
+#
+# OpenFace is NOT a pip package — build it separately and point the extractor
+# at its FeatureExtraction binary. See the README and:
+# https://github.com/TadasBaltrusaitis/OpenFace/wiki
